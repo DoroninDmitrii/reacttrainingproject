@@ -6,6 +6,7 @@ import PostFilter from "./components/PostFilter";
 import MyModal from "./components/UI/MyModal/MyModal";
 import Mybutton from "./components/UI/button/Mybutton";
 import PastService from "./API/PostServise";
+import { getPageCount, getPagesArray } from "./components/utils/pages";
 
 function App() {
 
@@ -16,11 +17,19 @@ function App() {
   ]
 
   const [posts, setPosts] = useState(initialState);
-
   const [selectedSort, setSelectedSort] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-
+  // modalewindow
   const [visible, setVisible] = useState(false);
+  // loading
+  const [isPostsLoading, setIsPostsLoading] = useState(false);
+  // pagination
+  const [totalPages, setTotalPages] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
+
+  let pagesArray = getPagesArray(totalPages)
+
 
   useEffect(() => {
     fetchPosts()
@@ -52,13 +61,20 @@ function App() {
   }, [searchQuery, sortedPosts])
 
   async function fetchPosts() {
-    const post = await PastService.getAll();
-    setPosts(post);
+    setIsPostsLoading(true)
+    setTimeout(async () => {
+      const response = await PastService.getAll(limit, page);
+      setPosts(response.data);
+      const totalCount = response.headers['x-total-count'];
+      setTotalPages(getPageCount(totalCount, limit))
+      setIsPostsLoading(false)
+    }, 1000)
   }
 
   return (
     <div className="App">
       <Mybutton style={{ marginTop: 30 }} onClick={() => setVisible(true)}>Create user</Mybutton>
+
       <MyModal visible={visible} setVisible={setVisible}>
         <PostForm create={createPost} />
       </MyModal>
@@ -66,7 +82,14 @@ function App() {
       <hr style={{ margin: "15px" }} />
       <PostFilter setSearchQuery={setSearchQuery} sortPosts={sortPosts} searchQuery={searchQuery} selectedSort={selectedSort} />
 
-      {sortedAndSearchPosts.length !== 0 ? <PostList removePost={deletePost} posts={sortedAndSearchPosts} /> : <h1 style={{ textAlign: "center" }}>There are not posts!</h1>}
+      {isPostsLoading ? <h1>Loading...</h1> : sortedAndSearchPosts.length !== 0 ? <PostList removePost={deletePost} posts={sortedAndSearchPosts} /> : <h1 style={{ textAlign: "center" }}>There are not posts!</h1>
+      }
+
+      <div className="page__wrapper">
+        {pagesArray.map(item =>
+          <span onClick={() => setPage(item)} key={item} className={page === item ? "page page__current" : "page"}>{item}</span>
+        )}
+      </div>
     </div>
   );
 }
