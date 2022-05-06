@@ -4,14 +4,14 @@
   box-sizing: border-box;
 }
 
-
 #root {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .App {
-  width: 800px;
+  width: 860px;
 }
 
 .post {
@@ -55,3 +55,15 @@
   font-weight: bold;
 }
 
+.navbar {
+  height: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  background: lightgreen
+}
+
+.navbar__links {
+  margin-left: auto;
+}

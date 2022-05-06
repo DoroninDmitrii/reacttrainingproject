@@ -2,7 +2,7 @@ import React from "react";
 import Myinput from "./UI/input/Myinput";
 import Myselect from "./UI/select/Myselect";
 
-const PostFilter = ({ setSearchQuery, sortPosts, searchQuery, selectedSort }) => {
+const PostFilter = ({ setSearchQuery, searchQuery, sortPosts, selectedSort }) => {
 
   return (
     <div>
