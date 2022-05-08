@@ -69,7 +69,7 @@ function Posts() {
       const totalCount = response.headers["x-total-count"];
       setTotalPages(getPageCount(totalCount, limit));
       setIsPostsLoading(false);
-    }, 1000);
+    }, 500);
   }
 
   let pagesArray = getPagesArray(totalPages);

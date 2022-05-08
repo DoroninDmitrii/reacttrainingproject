@@ -12,8 +12,8 @@ const PostFilter = ({ setSearchQuery, searchQuery, sortPosts, selectedSort }) =>
         placeholder="Find..."
       />
       <Myselect
-        value={selectedSort}
-        onChange={sortPosts}
+        selectedValue={selectedSort}
+        onChangeSortPosts={sortPosts}
         defaultValue="Sort"
         options={[
           { value: "title", name: "Name" },
