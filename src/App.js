@@ -5,7 +5,6 @@ import RoutesApp from "./components/RoutesApp";
 import { AuthContext } from './context/index'
 import { useEffect, useReducer } from "react";
 import { mainReducer } from "./reducer/mainReducer";
-import { type } from "@testing-library/user-event/dist/type";
 
 function App() {
 
