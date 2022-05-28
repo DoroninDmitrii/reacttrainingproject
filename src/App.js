@@ -11,7 +11,6 @@ function App() {
   const initialState =  { isAuth: true}
 
   const [state, dispatch] = useReducer(mainReducer, initialState)
-  console.log(state)
 
   useEffect(() => {
     if (localStorage.getItem('auth')) {
